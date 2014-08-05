@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Created by liqiushi on 8/3/14.
+ * http://blog.csdn.net/linhuanmars/article/details/19899259
  */
 public class MergeKSortedLists {
     public static void main(String[] args) {
@@ -44,13 +45,21 @@ public class MergeKSortedLists {
     }
 
     private static ListNode mergeKLists(List<ListNode> lists) {
-        ListNode node = merge(null, lists.get(0));
+        if (lists == null || lists.size() == 0)
+            return null;
 
-        for (int i = 1; i < lists.size(); i++) {
-            node = merge(node, lists.get(i));
-        }
+        return helper(lists, 0, lists.size() - 1);
+    }
 
-        return node;
+    private static ListNode helper(List<ListNode> lists, int start, int end) {
+        if (start >= end)
+            return lists.get(start);
+
+        int mid = (start + end) / 2;
+        ListNode left = helper(lists, start, mid);
+        ListNode right = helper(lists, mid + 1, end);
+
+        return merge(left, right);
     }
 
     private static ListNode merge(ListNode l1, ListNode l2) {

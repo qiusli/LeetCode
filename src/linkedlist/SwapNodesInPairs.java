@@ -1,6 +1,6 @@
-package linked_list;
+package linkedlist;
 
-import linked_list.node.ListNode;
+import linkedlist.node.ListNode;
 
 /**
  * Created by liqiushi on 7/10/14.

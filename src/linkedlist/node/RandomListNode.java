@@ -1,4 +1,4 @@
-package linked_list.node;
+package linkedlist.node;
 
 /**
  * Created by liqiushi on 7/12/14.

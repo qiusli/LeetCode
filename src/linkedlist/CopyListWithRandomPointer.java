@@ -1,6 +1,6 @@
-package linked_list;
+package linkedlist;
 
-import linked_list.node.RandomListNode;
+import linkedlist.node.RandomListNode;
 
 import java.util.HashMap;
 import java.util.Map;

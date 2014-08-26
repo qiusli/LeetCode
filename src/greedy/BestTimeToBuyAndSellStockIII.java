@@ -1,9 +1,5 @@
 package greedy;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 /**
  * Created by liqiushi on 8/17/14.
  * http://blog.csdn.net/pickless/article/details/12034365
@@ -23,28 +19,39 @@ public class BestTimeToBuyAndSellStockIII {
         System.out.println(maxProfit(prices4));
     }
 
+    // this is to find a anchor at which the sum of its left side and
+    // right side are the biggest, so we use 2 loops to find individually
+    // the left and right biggest value at each index, the biggest sum at a
+    // particular index is the result
     private static int maxProfit(int[] prices) {
-        if (prices == null)
+        if (prices == null || prices.length == 0)
             return 0;
 
-        List<Integer> profit = new ArrayList<Integer>();
-        for (int i = 0; i < prices.length - 1; i++) {
-            // down
-            while (i + 1 < prices.length && prices[i + 1] <= prices[i])
-                i++;
+        // left[i] means the largest profit from left[0] - left[i]
+        int[] left = new int[prices.length];
+        // right[i] means the largest from right[i] to right[n - 1]
+        int[] right = new int[prices.length];
 
-            int low = i;
-
-            // up
-            while (i + 1 < prices.length && prices[i + 1] >= prices[i])
-                i++;
-
-            profit.add(prices[i] - prices[low]);
+        // construct left
+        int left_min = prices[0]; // the smallest value before the current price
+        left[0] = 0;
+        for (int i = 1; i < prices.length; i++) {
+            left[i] = prices[i] - left_min > left[i - 1] ? prices[i] - left_min : left[i - 1];
+            left_min = prices[i] < left_min ? prices[i] : left_min;
         }
 
-        Collections.sort(profit);
-        return profit.size() > 1 ?
-                profit.get(profit.size() - 1) + profit.get(profit.size() - 2) :
-                profit.get(profit.size() - 1);
+        int right_max = prices[prices.length - 1];
+        right[0] = 0;
+        for (int i = prices.length - 2; i >= 0; i--) {
+            right[i] = right_max - prices[i] > right[i + 1] ? right_max - prices[i] : right[i + 1];
+            right_max = prices[i] > right_max ? prices[i] : right_max;
+        }
+
+        int max = 0;
+        for (int i = 0; i < prices.length; i++) {
+            max = Math.max(max, left[i] + right[i]);
+        }
+
+        return max;
     }
 }
